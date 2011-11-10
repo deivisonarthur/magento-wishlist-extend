@@ -1,0 +1,11 @@
+############################################################################
+# Magentomodule WishlistExtend 1.0.0 from narf-studios GmbH ################
+############################################################################
+
+This is a module to extend the functionality of the default Magento Wishlist.
+If the Customer share a wishlist and another person comes to this wishlist 
+via the link from the mail and buy a product from the wishlist, this product 
+will be removed from the wishlist.
+
+Installation:
+- Copy all files and folders into your Magento Installation
