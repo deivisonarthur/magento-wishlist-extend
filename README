@@ -3,8 +3,8 @@
 ############################################################################
 
 This is a module to extend the functionality of the default Magento Wishlist.
-If the Customer share a wishlist and another person comes to this wishlist 
-via the link from the mail and buy a product from the wishlist, this product 
+If the customer shares a wishlist and another person comes to this wishlist 
+via the link from the mail and buys a product from the wishlist, this product 
 will be removed from the wishlist.
 
 Installation:
