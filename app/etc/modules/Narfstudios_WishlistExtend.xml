@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>    
+        <Narfstudios_WishlistExtend>
+            <version>1.0.0</version>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Narfstudios_Base />
+            </depends>
+        </Narfstudios_WishlistExtend>
+    </modules>
+</config>
