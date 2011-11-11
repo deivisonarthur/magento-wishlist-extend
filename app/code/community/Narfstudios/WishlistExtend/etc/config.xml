@@ -43,14 +43,39 @@
                       <cart>Narfstudios_WishlistExtend_Helper_Data</cart>
                  </rewrite>
               </checkout>
+              <wishlist>
+              	<rewrite>
+              		<data>Narfstudios_WishlistExtend_Helper_Wishlist</data>
+              	</rewrite>
+              </wishlist>
         </helpers>
         <events>
-            <controller_action_postdispatch_checkout_cart_add>
+        	<!-- Magento < 1.6.0 -->
+        	<controller_action_predispatch_wishlist_shared_cart>
+                <observers>
+                    <narfstudios_wishlistextend>
+                        <type>singleton</type>
+                        <class>Narfstudios_WishlistExtend_Model_Observer</class>
+                        <method>addWishlistProductToSessionBackward</method>
+                    </narfstudios_wishlistextend>
+                </observers>        		
+        	</controller_action_predispatch_wishlist_shared_cart>
+        	<!-- Magento >= 1.6.0 -->
+            <checkout_cart_add_product_complete>
                 <observers>
                     <narfstudios_wishlistextend>
                         <type>singleton</type>
                         <class>Narfstudios_WishlistExtend_Model_Observer</class>
                         <method>addWishlistProductToSession</method>
+                    </narfstudios_wishlistextend>
+                </observers>
+            </checkout_cart_add_product_complete>
+            <controller_action_postdispatch_checkout_cart_add>
+                <observers>
+                    <narfstudios_wishlistextend>
+                        <type>singleton</type>
+                        <class>Narfstudios_WishlistExtend_Model_Observer</class>
+                        <method>addWishlistProductToSessionOptions</method>
                     </narfstudios_wishlistextend>
                 </observers>
             </controller_action_postdispatch_checkout_cart_add>  

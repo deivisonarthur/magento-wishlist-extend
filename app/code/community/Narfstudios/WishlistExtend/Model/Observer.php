@@ -1,7 +1,52 @@
 <?php
 class Narfstudios_WishlistExtend_Model_Observer {
+   
+   
+	/**
+	 * Simple products without options with Magento 1.5.x or lower
+	 */
+    public function addWishlistProductToSessionBackward($observer) {
+        $_request = $observer->getControllerAction()->getRequest();
+ 
+        // add the combination of wishlist and product to session
+        $code = $_request->getParam('wishlist_code');
+
+        if(!empty($code)){
+        	// Load product from wishlist item
+        	$wishlist = Mage::getModel('wishlist/wishlist')->loadByCode($code);
+			$item = $wishlist->getItem($_request->getParam('item'));
+        	$_product = $item->getProduct();
+
+            // prepare session entry for every combination
+            $array =  Mage::getSingleton('checkout/session')->getProductFromOtherWishlistCodeAdded();
+            $array[] = $code.'@_@'.$_product->getEntityId();
+            Mage::getSingleton('checkout/session')->setProductFromOtherWishlistCodeAdded($array);
+        }
+    }   
     
+	/**
+	 * Simple products without options
+	 */
     public function addWishlistProductToSession($observer) {
+        $event = $observer->getEvent();
+        $_request = $event->getRequest();
+        $_product = $event->getProduct();
+        
+        // add the combination of wishlist and product to session
+        $code = $_request->getParam('wishlist_code');
+        
+        if(!empty($code)){
+            // prepare session entry for every combination
+            $array =  Mage::getSingleton('checkout/session')->getProductFromOtherWishlistCodeAdded();
+            $array[] = $code.'@_@'.$_product->getId();
+            Mage::getSingleton('checkout/session')->setProductFromOtherWishlistCodeAdded($array);
+        }
+    }
+	
+	/**
+	 * If product has an individual option set entry now
+	 */
+    public function addWishlistProductToSessionOptions($observer) {
        	//Changed objects because event changed
 		$_request = $observer->getControllerAction()->getRequest();
         $_product = $observer->getControllerAction()->getRequest()->getParam('product');
@@ -25,7 +70,6 @@ class Narfstudios_WishlistExtend_Model_Observer {
      */
     public function removeProductFromWishlist($observer) 
     {
-
         $event = $observer->getEvent();
         $order = $event->getOrder();
         
@@ -33,12 +77,7 @@ class Narfstudios_WishlistExtend_Model_Observer {
         $session = Mage::getSingleton('checkout/session');
         $code_array = $session->getProductFromOtherWishlistCodeAdded();
 		
-		    	Mage::log('call removeProductFromWishlist', null, 'wishlist.log');  
-		
-		Mage::log($code_array, null, 'wishlist.log');  
-		
         if(!empty($code_array)) {
-            
             // for every wishlist product combination we have to check if there is an order item
             foreach($code_array as $i => $code){
                 $code_combination = explode('@_@', $code);
@@ -48,6 +87,7 @@ class Narfstudios_WishlistExtend_Model_Observer {
                 
                 //wishlist found look for product
                 foreach ($wishlist->getItemCollection() as $index => $item) {
+                   	Mage::log($item->getProductId()."== $product_id", null, 'wishlist.log');  
                     if($item->getProductId() == $product_id) {
                         // delete from wishlist
                         $item->delete();

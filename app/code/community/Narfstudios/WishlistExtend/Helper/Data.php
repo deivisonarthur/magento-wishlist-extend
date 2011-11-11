@@ -17,8 +17,6 @@ class Narfstudios_WishlistExtend_Helper_Data extends Mage_Checkout_Helper_Cart
             'product'       => $product->getEntityId()
         );
 
-
-        
         if (!empty($additional)) {
             $routeParams = array_merge($routeParams, $additional);
         }
