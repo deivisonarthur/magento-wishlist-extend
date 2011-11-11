@@ -2,16 +2,17 @@
 class Narfstudios_WishlistExtend_Model_Observer {
     
     public function addWishlistProductToSession($observer) {
-        $event = $observer->getEvent();
-        $_request = $event->getRequest();
-        $_product = $event->getProduct();
-        
+       	//Changed objects because event changed
+		$_request = $observer->getControllerAction()->getRequest();
+        $_product = $observer->getControllerAction()->getRequest()->getParam('product');
+
         // add the combination of wishlist and product to session
         $code = $_request->getParam('wishlist_code');
+
         if(!empty($code)){
             // prepare session entry for every combination
             $array =  Mage::getSingleton('checkout/session')->getProductFromOtherWishlistCodeAdded();
-            $array[] = $code.'@_@'.$_product->getId();
+            $array[] = $code.'@_@'.$_product;
             Mage::getSingleton('checkout/session')->setProductFromOtherWishlistCodeAdded($array);
         }
     }
@@ -23,13 +24,19 @@ class Narfstudios_WishlistExtend_Model_Observer {
      * @param type $event 
      */
     public function removeProductFromWishlist($observer) 
-    { 
+    {
+
         $event = $observer->getEvent();
         $order = $event->getOrder();
         
         // remove from wishlist
         $session = Mage::getSingleton('checkout/session');
         $code_array = $session->getProductFromOtherWishlistCodeAdded();
+		
+		    	Mage::log('call removeProductFromWishlist', null, 'wishlist.log');  
+		
+		Mage::log($code_array, null, 'wishlist.log');  
+		
         if(!empty($code_array)) {
             
             // for every wishlist product combination we have to check if there is an order item

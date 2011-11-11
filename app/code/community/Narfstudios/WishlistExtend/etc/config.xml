@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Narfstudios_WishlistExtend>
-            <version>1.0.0</version>
+            <version>0.1.0</version>
         </Narfstudios_WishlistExtend>
     </modules>
     <frontend>
@@ -45,7 +45,7 @@
               </checkout>
         </helpers>
         <events>
-            <checkout_cart_add_product_complete>
+            <controller_action_postdispatch_checkout_cart_add>
                 <observers>
                     <narfstudios_wishlistextend>
                         <type>singleton</type>
@@ -53,7 +53,7 @@
                         <method>addWishlistProductToSession</method>
                     </narfstudios_wishlistextend>
                 </observers>
-            </checkout_cart_add_product_complete>
+            </controller_action_postdispatch_checkout_cart_add>  
             <checkout_onepage_controller_success_action>
                 <observers>
                     <narfstudios_wishlistextend>
