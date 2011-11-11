@@ -9,3 +9,8 @@ will be removed from the wishlist.
 
 Installation:
 - Copy all files and folders into your Magento Installation
+
+Troubleshooting:
+- There is a bug in Magento < 1.6.0 if you want to add products with options. This module does
+not deal with this error. You can upgrade Magento or send us a mail for a further development of this
+extension.

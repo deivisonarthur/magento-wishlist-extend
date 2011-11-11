@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Narfstudios_WishlistExtend>
-            <version>0.1.0</version>
+            <version>1.0.2</version>
         </Narfstudios_WishlistExtend>
     </modules>
     <frontend>
@@ -49,6 +49,22 @@
               	</rewrite>
               </wishlist>
         </helpers>
+        <resources>
+        	<wishlistextend_setup>
+				<setup>  
+					<module>Narfstudios_WishlistExtend</module>  
+				</setup>
+        		<connection> 
+ 					<use>core_setup</use>  
+				</connection>  
+			</wishlistextend_setup>
+			<wishlistextend_write>  
+				<use>core_write</use>  
+			</wishlistextend_write>  
+			<wishlistextend_read>  
+				<use>core_read</use> 
+			</wishlistextend_read> 
+        </resources>
         <events>
         	<!-- Magento < 1.6.0 -->
         	<controller_action_predispatch_wishlist_shared_cart>
